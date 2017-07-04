@@ -37,4 +37,14 @@ class TestSpringXmlFile extends Specification {
         updatedOldBeans.contains('bean1')
         updatedOldBeans.concat('appendedProp')
     }
+
+    def "test remove node"() {
+        when:
+        devFile.removeNode(devBeans, 'bean', 'bean20')
+        String updatedDevBeans = XmlUtil.serialize(devBeans)
+
+        then:
+        !updatedDevBeans.contains('bean20')
+        updatedDevBeans.concat('bean1')
+    }
 }

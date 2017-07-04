@@ -63,4 +63,14 @@ class SpringXmlFile extends XmlFile {
         }
     }
 
+    /**
+     * Remove node from beans based on element and id attribute.
+     * @param beans parsed xml
+     * @param element name
+     * @param id value of id attribute
+     */
+    void removeNode(beans, element, id) {
+        def theBean = beans."${element}".find{it.@id == id}
+        theBean.replaceNode{}
+    }
 }

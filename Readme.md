@@ -11,6 +11,9 @@ https://github.com/mike-brown-1/xmlLib.git
 
 ## Revisions
 
+Version 0.1.3    
+* Added capability to remove node along with test
+
 Version 0.1.2   
 * Working UpdateXml for replace node
 * Added TestSpringXmlFile
