@@ -16,6 +16,8 @@ limitations under the License.
 
 package xmlLib
 
+import groovy.xml.XmlUtil
+
 /**
  * Main class that uses library to update an old Spring XML config based on a new one.
  *
@@ -24,16 +26,17 @@ package xmlLib
 class UpdateXml {
 
     public static void main(String[] args) {
-        if (args.length != 3) {
+        println "arguments: ${args}"
+        if (args.length != 4) {
             println """
-Usage: groovy xmlLib.UpdateXML oldConfig newConfig fileWithCommands
-oldConfig: old Spring XML config file
+Usage: groovy xmlLib.UpdateXML oldConfig newConfig fileWithCommands mergedConfig
+oldConfig: old Spring XML config file.
 newConfig: new Spring XML config file containing new or modified elements.
 fileWithCommands: text file with commands.
+mergedConfig: file name of the merged Spring XML config file.
 
 fileWithCommands contents:
-line 1: <oldConfig file path> <newConfig file path> // space delimited
-lines 2 through n:
+lines 1 through n:
 <command> <element-name> <id-value> // space delimited
 
 command: either rep (replace) or app (append)
@@ -42,14 +45,39 @@ id-value: value of the id attribute of the element
 """
             System.exit(1)
         }
-        def oldFile = new XmlFile(args[0])
-        def oldBeans = oldFile.parse()
-        def newFile = new XmlFile(args[1])
-        def newBeans = newFile.parse()
-        processCommands(oldBeans, newBeans, args[2])
+        try {
+// create and parse Spring XML files
+            def oldFile = new SpringXmlFile(args[0])
+            def oldBeans = oldFile.parse()
+            def newFile = new SpringXmlFile(args[1])
+            def newBeans = newFile.parse()
+            processCommands(oldFile, newFile, oldBeans, newBeans, args[2])
+            File mergedFile = new File(args[3])
+            mergedFile.text = XmlUtil.serialize( oldBeans )
+            println "produced merged output: ${args[3]}"
+        } catch (Exception e) {
+            println "ERROR: ${e.message}"
+        }
     }
 
-    static void processCommands(oldBeans, newBeans, commandFileName) {
-
+    static void processCommands(SpringXmlFile oldFile, SpringXmlFile newFile, oldBeans, newBeans,
+                                String commandFileName) {
+        def commandFile = new File(commandFileName)
+        if (!commandFile.exists()) {
+            println "${commandFile} does not exist, exiting."
+            System.exit(1)
+        }
+        def commands = commandFile.readLines()
+        println "read ${commands.size()} lines from command file"
+        commands.each { command ->
+            def tokens = command.split(' ')
+            if (tokens.size() == 3) {
+                if (tokens[0].toLowerCase().equals('app')) {
+                    oldFile.appendNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
+                } else {
+                    println "ignoring invalid line: ${command}"
+                }
+            }
+        }
     }
 }

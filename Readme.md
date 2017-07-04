@@ -8,3 +8,9 @@ modifies or removes elements in the Spring XML configuration file, an easy way t
 merge those changes into prior deployments was needed.
 
 https://github.com/mike-brown-1/xmlLib.git
+
+## Revisions
+
+Version 0.1.1     
+Working UpdateXml for append element.
+

@@ -55,7 +55,7 @@ class SpringXmlFile extends XmlFile {
      * @param elementName elements name (e.g., bean, list, map)
      * @param id value if id attribute to find in the newBeans
      */
-    private static void replaceNode(oldBeans, newBeans, elementName, id) {
+    void replaceNode(oldBeans, newBeans, elementName, id) {
         def custBean = oldBeans."${elementName}".find{it.@id == id}
         def devBean = newBeans."${elementName}".find{it.@id == id}
         custBean.replaceNode {
