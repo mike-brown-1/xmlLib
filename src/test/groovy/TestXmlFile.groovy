@@ -13,7 +13,7 @@ class TestXmlFile extends Specification {
 
     def "test file exists"() {
         when:
-            def f = new XmlFile('data/caa.status.xml')
+            def f = new XmlFile('data/old.xml')
         then:
             assert f != null
             notThrown FileNotFoundException

@@ -1,1 +1,2 @@
 app bean bean2
+rep bean bean1

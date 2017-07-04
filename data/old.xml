@@ -2,4 +2,7 @@
   <bean id="bean1" class="xmlLib.SomeClass">
     <property name="foo" value="bar" />
   </bean>
+  <bean id="bean10" class="xmlLib.SomeClass">
+    <property name="key" value="1234" />
+  </bean>
 </beans>

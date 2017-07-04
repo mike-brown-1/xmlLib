@@ -11,6 +11,11 @@ https://github.com/mike-brown-1/xmlLib.git
 
 ## Revisions
 
+Version 0.1.2   
+* Working UpdateXml for replace node
+* Added TestSpringXmlFile
+* Minor changes and javadoc
+
 Version 0.1.1     
-Working UpdateXml for append element.
+* Working UpdateXml for append element.
 
