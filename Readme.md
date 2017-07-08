@@ -11,6 +11,15 @@ https://github.com/mike-brown-1/xmlLib.git
 
 ## Revisions
 
+Version 0.1.4    
+* Added tests for UpdateXml
+* Made merged output file name optional command line
+argument.  If omitted, results will be printed to 
+standard output
+* Added some javadoc
+* Removed System.exit() calls, couldn't write tests
+with them
+
 Version 0.1.3    
 * Added capability to remove node along with test
 

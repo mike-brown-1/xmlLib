@@ -54,16 +54,29 @@ class XmlFile {
         res
     }
 
-
+    /**
+     * Save the beans back to the original file
+     * @param beans parsed beans to save
+     */
     void saveFile(GPathResult beans) {
         saveTheBeans(theFile, beans)
     }
 
+    /**
+     * Save the beans to the specified file name
+     * @param fileName file name to save the beans to
+     * @param beans the beans to save
+     */
     void saveFile(String fileName, GPathResult beans) {
         File f = new File(fileName)
         saveTheBeans(f, beans)
     }
 
+    /**
+     * Helper method to save beans to a file
+     * @param f File to save to
+     * @param beans the beans to save
+     */
     private void saveTheBeans(File f, GPathResult beans) {
         f.text = XmlUtil.serialize(beans)
     }

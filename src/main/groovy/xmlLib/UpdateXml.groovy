@@ -33,13 +33,14 @@ class UpdateXml {
      */
     public static void main(String[] args) {
         println "UpdateXml starting, arguments: ${args}"
-        if (args.length != 4) {
+        if (args.length != 3 && args.length != 4) {
             println """
-Usage: groovy xmlLib.UpdateXML oldConfig newConfig fileWithCommands mergedConfig
+Usage: groovy xmlLib.UpdateXML oldConfig newConfig fileWithCommands [mergedConfig]
 oldConfig: old Spring XML config file.
 newConfig: new Spring XML config file containing new or modified elements.
 fileWithCommands: text file with commands.
-mergedConfig: file name of the merged Spring XML config file.
+mergedConfig: OPTIONAL file name of the merged Spring XML config file, 
+    will print to standard out if not provided. 
 
 fileWithCommands contents:
 lines 1 through n:
@@ -49,28 +50,30 @@ command: either rep (replace) or app (append)
 element-name: bean, util, etc.
 id-value: value of the id attribute of the element
 """
-            System.exit(1)
-        }
-        String currentFile
-        try {
-            // create and parse Spring XML files
-            currentFile = args[0]
-            def oldFile = new SpringXmlFile(args[0])
-            def oldBeans = oldFile.parse()
-            currentFile = args[1]
-            def newFile = new SpringXmlFile(args[1])
-            def newBeans = newFile.parse()
+        } else {
+            String currentFile
+            try {
+                // create and parse Spring XML files
+                currentFile = args[0]
+                def oldFile = new SpringXmlFile(args[0])
+                def oldBeans = oldFile.parse()
+                currentFile = args[1]
+                def newFile = new SpringXmlFile(args[1])
+                def newBeans = newFile.parse()
 
-            processCommands(oldFile, newFile, oldBeans, newBeans, args[2])
-            oldFile.saveFile(args[3], oldBeans)
-
-            println "produced merged output: ${args[3]}"
-        } catch (SAXException s) {
-            println "ERROR processing: ${currentFile}: ${s.toString()}"
-            System.exit(2)
-        } catch (Exception e) {
-            println "ERROR: ${e.message}"
-            System.exit(3)
+                processCommands(oldFile, newFile, oldBeans, newBeans, args[2])
+                if (args.length == 4) {
+                    oldFile.saveFile(args[3], oldBeans)
+                    println "produced merged output: ${args[3]}"
+                } else {
+                    println 'Updated XML:'
+                    println XmlUtil.serialize(oldBeans)
+                }
+            } catch (SAXException s) {
+                println "ERROR invalid XML: ${currentFile}: ${s.toString()}"
+            } catch (Exception e) {
+                println "ERROR: ${e.message}"
+            }
         }
     }
 
@@ -87,20 +90,20 @@ id-value: value of the id attribute of the element
         def commandFile = new File(commandFileName)
         if (!commandFile.exists()) {
             println "${commandFile} does not exist, exiting."
-            System.exit(1)
-        }
-        def commands = commandFile.readLines()
-        println "read ${commands.size()} lines from command file"
-        commands.each { command ->
-            println "    processing command: ${command}"
-            def tokens = command.split(' ')
-            if (tokens.size() == 3) {
-                if (tokens[0].toLowerCase().equals('app')) { // append
-                    oldFile.appendNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
-                } else if (tokens[0].toLowerCase().equals('rep')) { // replace
-                    oldFile.replaceNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
-                } else {
-                    println "ignoring invalid line: ${command}"
+        } else {
+            def commands = commandFile.readLines()
+            println "read ${commands.size()} lines from command file"
+            commands.each { command ->
+                println "    processing command: ${command}"
+                def tokens = command.split(' ')
+                if (tokens.size() == 3) {
+                    if (tokens[0].toLowerCase().equals('app')) { // append
+                        oldFile.appendNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
+                    } else if (tokens[0].toLowerCase().equals('rep')) { // replace
+                        oldFile.replaceNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
+                    } else {
+                        println "ignoring invalid line: ${command}"
+                    }
                 }
             }
         }
