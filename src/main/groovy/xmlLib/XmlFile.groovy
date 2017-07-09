@@ -25,8 +25,8 @@ import groovy.xml.XmlUtil
  * @author Mike Brown
  */
 class XmlFile {
-    String fileName
-    File theFile
+    protected String fileName
+    protected File theFile
 
     /**
      * Create new XmlFile and verify it exists.

@@ -21,22 +21,25 @@ package xmlLib
  * Class representing a Spring Framework XML config file.
  * Methods are provided to modify the configuration of one file based on contents of a second file.
  * <p>
- *     Assumes we are dealing with elements directly under the "beans" element that look like:
- *     <pre>
- *         <bean id="config" class="some.class.name">
- *     </pre>
- * </p>
+ * Assumes we are dealing with elements directly under the "beans" element that look like the following.
+ * <p>
+ * &lt;bean id="config" class="some.class.name"&gt;
  *
  * @author Mike Brown
  */
 class SpringXmlFile extends XmlFile {
 
+    /**
+     * Create new SpringXmlFile and verify it exists.
+     * @param fileName path to the file
+     * @throws FileNotFoundException File does not exist
+     */
     SpringXmlFile(String fileName) throws FileNotFoundException{
         super(fileName)
     }
 
     /**
-     * Append node to xml document
+     * Append node from newBeans to oldBeans
      * Assumes we are appending elements to the root document.
      * @param oldBeans old spring xml config file beans
      * @param newBeans new spring xml config file beans with element we want to append.

@@ -1,2 +1,3 @@
 app bean bean2
 rep bean bean1
+del bean bean10

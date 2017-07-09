@@ -7,9 +7,15 @@ Spring Framework project, which uses XML configuration files. As new development
 modifies or removes elements in the Spring XML configuration file, an easy way to 
 merge those changes into prior deployments was needed.
 
+Requires Java 1.7
+
 https://github.com/mike-brown-1/xmlLib.git
 
 ## Revisions
+Version 0.1.5   
+* Updated UpdateXml to support del (delete) command.
+* Specified Java 1.7
+* Some code cleanup
 
 Version 0.1.4    
 * Added tests for UpdateXml

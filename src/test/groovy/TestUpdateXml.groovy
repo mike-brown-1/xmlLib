@@ -8,17 +8,14 @@ class TestUpdateXml extends Specification {
 
     def "test no args"() {
         when:
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        PrintStream ps = new PrintStream(baos)
+        PrintStream old = System.out
+        System.setOut(ps)
         def app = new UpdateXml()
         app.main()
-        System.out.flush();
-        System.setOut(old);
-        // Show what happened
+        System.out.flush()
+        System.setOut(old)
         def results = baos.toString()
 
         then:
@@ -27,17 +24,14 @@ class TestUpdateXml extends Specification {
 
     def "test invalid xml"() {
         when:
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        PrintStream ps = new PrintStream(baos)
+        PrintStream old = System.out
+        System.setOut(ps)
         def app = new UpdateXml()
         app.main('data/bad.xml', 'data/devBeans.xml', 'cmd1.txt')
-        System.out.flush();
-        System.setOut(old);
-        // Show what happened
+        System.out.flush()
+        System.setOut(old)
         def results = baos.toString()
 
         then:
@@ -46,17 +40,14 @@ class TestUpdateXml extends Specification {
 
     def "test missing cmd file"() {
         when:
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        PrintStream ps = new PrintStream(baos)
+        PrintStream old = System.out
+        System.setOut(ps)
         def app = new UpdateXml()
         app.main('data/oldBeans.xml', 'data/devBeans.xml', 'data/nocmd.txt')
-        System.out.flush();
-        System.setOut(old);
-        // Show what happened
+        System.out.flush()
+        System.setOut(old)
         def results = baos.toString()
 
         then:
@@ -65,17 +56,14 @@ class TestUpdateXml extends Specification {
 
     def "test merged output to console"() {
         when:
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        PrintStream ps = new PrintStream(baos)
+        PrintStream old = System.out
+        System.setOut(ps)
         def app = new UpdateXml()
         app.main('data/old.xml', 'data/dev.xml', 'data/cmd1.txt')
-        System.out.flush();
-        System.setOut(old);
-        // Show what happened
+        System.out.flush()
+        System.setOut(old)
         def results = baos.toString()
 
         then:

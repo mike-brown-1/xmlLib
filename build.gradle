@@ -2,7 +2,19 @@ apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-version = '0.1.3'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+version = '0.1.5'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'xmlLib',
+                'Implementation-Version': version
+    }
+}
+
+mainClassName = "xmlLib.UpdateXml"
 
 repositories {
     mavenCentral()
@@ -12,3 +24,4 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.12'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
+

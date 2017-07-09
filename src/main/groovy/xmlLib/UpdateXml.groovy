@@ -36,7 +36,7 @@ class UpdateXml {
         if (args.length != 3 && args.length != 4) {
             println """
 Usage: groovy xmlLib.UpdateXML oldConfig newConfig fileWithCommands [mergedConfig]
-oldConfig: old Spring XML config file.
+oldConfig: old Spring XML config file that needs to be updated.
 newConfig: new Spring XML config file containing new or modified elements.
 fileWithCommands: text file with commands.
 mergedConfig: OPTIONAL file name of the merged Spring XML config file, 
@@ -46,9 +46,11 @@ fileWithCommands contents:
 lines 1 through n:
 <command> <element-name> <id-value> // space delimited
 
-command: either rep (replace) or app (append)
+command: either rep (replace), del (delete) or app (append)
 element-name: bean, util, etc.
 id-value: value of the id attribute of the element
+
+command lines that are not recognized are ignored and displayed on standard output.
 """
         } else {
             String currentFile
@@ -101,6 +103,8 @@ id-value: value of the id attribute of the element
                         oldFile.appendNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
                     } else if (tokens[0].toLowerCase().equals('rep')) { // replace
                         oldFile.replaceNode(oldBeans, newBeans, tokens[1].trim(), tokens[2].trim())
+                    } else if (tokens[0].toLowerCase().equals('del')) { // replace
+                        oldFile.removeNode(oldBeans, tokens[1].trim(), tokens[2].trim())
                     } else {
                         println "ignoring invalid line: ${command}"
                     }
