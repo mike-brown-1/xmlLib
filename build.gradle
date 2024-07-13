@@ -1,27 +1,40 @@
-apply plugin: 'idea'
-apply plugin: 'groovy'
-apply plugin: 'application'
+plugins {
+    id 'groovy'
+    id 'application'
+    id "com.github.ben-manes.versions" version "0.51.0"
+}
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-version = '0.1.5'
+java {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+}
 
 jar {
+    archiveVersion = '0.1.5'
     manifest {
         attributes 'Implementation-Title': 'xmlLib',
-                'Implementation-Version': version
+                'Implementation-Version': archiveVersion
     }
 }
 
-mainClassName = "xmlLib.UpdateXml"
+application {
+    // Define the main class for the application.
+    mainClass = 'xmlLib.UpdateXml'
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    implementation 'org.apache.groovy:groovy:4.0.21'
+    implementation 'org.apache.groovy:groovy-xml:4.0.21'
+
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
+    testImplementation 'junit:junit:4.13.2'
 }
 
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}

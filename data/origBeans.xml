@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+<bean id="exampleBean" class="examples.ExampleBean">
+        <!-- setter injection using the nested <ref/> element -->
+        <property name="beanOne">
+            <ref bean="anotherExampleBean"/>
+        </property>
+
+        <!-- setter injection using the neater 'ref' attribute -->
+        <property name="beanTwo" ref="yetAnotherBean"/>
+        <property name="integerProperty" value="1"/>
+    </bean>
+
+    <util:map id="responsiveImageFormats" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Integer">
+        <entry key="widescreen" value="1200"/>
+        <entry key="desktop" value="992"/>
+        <entry key="tablet" value="768"/>
+        <entry key="mobile" value="480"/>
+    </util:map>
+
+    <util:list id="validators" value-type="com.codebyamir.data.Validator">
+        <ref bean="maxLengthValidator"/>
+        <ref bean="formatValidator"/>
+    </util:list>
+
+    <bean id="anotherExampleBean" class="examples.AnotherBean">
+        <property name="theList" ref="validators"/>
+        <property name="theMap" ref="responsiveImageFormats"/>
+    </bean>
+    <bean id="yetAnotherBean" class="examples.YetAnotherBean"/>
+
+</beans>

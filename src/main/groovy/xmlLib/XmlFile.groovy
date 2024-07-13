@@ -16,7 +16,8 @@ limitations under the License.
 
 package xmlLib
 
-import groovy.util.slurpersupport.GPathResult
+import groovy.xml.slurpersupport.GPathResult
+import groovy.xml.XmlSlurper
 import groovy.xml.XmlUtil
 
 /**
@@ -33,7 +34,7 @@ class XmlFile {
      * @param fileName path to the file
      * @throws FileNotFoundException File does not exist
      */
-    XmlFile(String fileName) throws FileNotFoundException{
+    XmlFile(String fileName) throws FileNotFoundException {
         this.fileName = fileName
         theFile = new File(fileName)
         if (!theFile.exists()) {
